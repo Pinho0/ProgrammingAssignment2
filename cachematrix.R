@@ -1,27 +1,32 @@
-## On this code we will find two function that can save the inverse of a matrix
-## as cache in order to avoid the repetition of the same calculation
+## This code defines two functions that cache the inverse of a matrix 
+## to avoid redundant computations
 
-## On this function we can set our matrix to other, get the currently matrix 
-## in use, set it's inverse and store that matrix as cache, and get that 
-## inverse matrix
+## This function creates a special object that stores a matrix 
+## and caches its inverse, we can do:
+## - set(): Updates the matrix and resets the cached inverse.
+## - get(): Retrieves the stored matrix.
+## - setinverse(): Stores a precomputed inverse.
+## - getinverse(): Retrieves the cached inverse.
+
 
 makeCacheMatrix <- function(x = matrix()) {
      inverse<-NULL #inverse matrix that we want to cache
      set <- function(y) {
           x <<- y
-          inverse <<- NULL
+          inverse <<- NULL # Reset cached inverse when setting a new matrix
      }
      
      get <- function() x
-     setinverse <- function(inv) inverse <<- inv ## inv need to already be the
-     ## inverse of the matrix, for example, inv = solve(makeCacheMatrix$get())
+     setinverse <- function(inv) inverse <<- inv # 'inv' must be the precomputed 
+     ## inverse, for example, inv = solve(makeCacheMatrix$get())
      getinverse <- function() inverse
      
      list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
 }
 
-## This function check if the inverse of the matrix is on cache, if it is not,
-## perform the matrix inversion and then save that in cache
+## This function computes the inverse of the matrix stored in a 
+## 'makeCacheMatrix' object, if the inverse is already cached, it returns the
+## cached value instead of recomputing.
 
 cacheSolve <- function(x, ...) { 
      
